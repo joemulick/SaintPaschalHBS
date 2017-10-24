@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var expressHBS = require('express-handlebars');
 var mongoose = require('mongoose');
 
+
 mongoose.connect('localhost:27017/SaintPaschalHBSDevelopment');
 // This may need to be localhost:27017/SaintPaschalEcommerce instead
 
