@@ -110,17 +110,18 @@
 			  </label>
 			</div>
 		</div>
+		<div id="news-and-prayer-outer-container">
 			<div id="news-output-container">
-				{{# each articles}}
-
-					<div>
-						<a href="{{link}}" target="_blank">
-						<p>{{text}}</p>
-						</a>
-					</div>
-				{{/each}}
+					{{# each articles}}
+						<div>
+							<a href="{{link}}" target="_blank">
+							<p>{{text}}</p>
+							</a>
+						</div>
+					{{/each}}
 			</div>
-		<div id="prayers-output-container"></div>
+			<div id="prayers-output-container"></div>
+		</div>
 	</div> <!-- Col 4 End -->
 
 </div> <!-- Row End -->
