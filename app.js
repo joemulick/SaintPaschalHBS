@@ -8,11 +8,7 @@ var expressHBS = require('express-handlebars');
 var mongoose = require('mongoose');
 
 
-mongoose.connect('localhost:27017/SaintPaschalHBSDevelopment');
-// This may need to be localhost:27017/SaintPaschalEcommerce instead
-
-// Set mongoose to leverage built in JavaScript ES6 Promises
-mongoose.Promise = Promise;
+mongoose.connect("mongodb://localhost/SaintPaschalDevelopmentHBS");
 
 var index = require('./routes/index');
 var users = require('./routes/users');

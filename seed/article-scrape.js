@@ -36,10 +36,9 @@ request("https://www.catholicculture.org/news/week.cfm", function(error, respons
           console.log(doc);
         }
 
-        }).then();
+        })
 
         counter++;
-    		console.log(counter);
 
         }
 
