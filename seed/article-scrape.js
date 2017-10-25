@@ -1,9 +1,15 @@
 var request = require("request");
 var cheerio = require("cheerio");
+var Article = require('../models/newsModel');
+
+var mongoose = require('mongoose');
+
+mongoose.createConnection('localhost:27017/SaintPaschalHBSDevelopment');
+
+// Set mongoose to leverage built in JavaScript ES6 Promises
+mongoose.Promise = Promise;
+
 ///////////////////
-
-
-var scrapeDat = function() {
 
 request("https://www.catholicculture.org/news/week.cfm", function(error, response, html) {
   // Load the HTML into cheerio and save it to a variable
@@ -12,6 +18,8 @@ request("https://www.catholicculture.org/news/week.cfm", function(error, respons
   var counter = 0;
 
   $(".home_headline").each(function(i, element) {
+
+  	if(counter < 10){
 
         var result = {};
         result.link = "https://www.catholicculture.org"
@@ -23,8 +31,6 @@ request("https://www.catholicculture.org/news/week.cfm", function(error, respons
 
         var entry = new Article(result);
 
-        if(counter < 10){
-
         entry.save(function(err, doc) {
         // Log any errors
         if (err) {
@@ -34,13 +40,23 @@ request("https://www.catholicculture.org/news/week.cfm", function(error, respons
         else {
           console.log(doc);
         }
+
         });
 
+            counter++;
+    		console.log(counter);
+
         }
-        
-        counter++
+
   });
 
-console.log(scrapeDat);
+   exit();
+   console.log('exiting now');
+   return false;
 
-module.exports = scrapeDat;
+});
+
+
+function exit(){
+  mongoose.disconnect();
+}

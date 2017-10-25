@@ -1,12 +1,14 @@
 var express = require('express');
 var router = express.Router();
-var Product = require('../models/product');
+var Article = require('../models/newsModel.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  Product.find(function(err, docs){
-  	res.render('main/index', { title: 'Saint Paschal Baylon Catholic Church', products: docs });
+  Article.find(function(err, docs){
+  	console.log(docs);
+  	res.render('main/index', { title: 'Saint Paschal Baylon Catholic Church', articles: docs });
   });
 });
+
 
 module.exports = router;
