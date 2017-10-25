@@ -102,14 +102,25 @@
 	<!-- Catholic News and Prayers Sections -->
 		<div class="cNews-Prayers">
 			<div class="btn-group d-flex" data-toggle="buttons">
-			  <label id="prayer-input" class="btn btn-secondary w-50 news-prayer-switch active">
-			    <input type="radio" name="options" id="option1" autocomplete="off" checked> Prayers
+			  <label id="news-input" class="btn btn-secondary w-50 news-prayer-switch active">
+			    <input type="radio" name="options" id="option1" autocomplete="off" checked> Catholic News
 			  </label>
-			  <label id="news-input" class="btn btn-secondary news-prayer-switch w-50">
-			    <input type="radio" name="options" id="option2" autocomplete="off"> Catholic News
+			  <label id="prayer-input" class="btn btn-secondary news-prayer-switch w-50">
+			    <input type="radio" name="options" id="option2" autocomplete="off"> Prayers
 			  </label>
 			</div>
 		</div>
+			<div id="news-output-container">
+				{{# each articles}}
+
+					<div>
+						<a href="{{link}}" target="_blank">
+						<p>{{text}}</p>
+						</a>
+					</div>
+				{{/each}}
+			</div>
+		<div id="prayers-output-container"></div>
 	</div> <!-- Col 4 End -->
 
 </div> <!-- Row End -->
