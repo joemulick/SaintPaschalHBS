@@ -1,15 +1,13 @@
 var request = require("request");
 var cheerio = require("cheerio");
 var Article = require('../models/newsModel');
-
 var mongoose = require('mongoose');
 
-mongoose.createConnection('localhost:27017/SaintPaschalHBSDevelopment');
+mongoose.connect("mongodb://localhost/SaintPaschalDevelopmentHBS");
+// This may need to be localhost:27017/SaintPaschalEcommerce instead
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 mongoose.Promise = Promise;
-
-///////////////////
 
 request("https://www.catholicculture.org/news/week.cfm", function(error, response, html) {
   // Load the HTML into cheerio and save it to a variable
@@ -26,9 +24,6 @@ request("https://www.catholicculture.org/news/week.cfm", function(error, respons
         result.link += $(this).children('a').attr("href");
         result.text = $(this).children('a').text();
 
-        console.log('Link: ' + result.link);
-        console.log('Text: ' + result.text);
-
         var entry = new Article(result);
 
         entry.save(function(err, doc) {
@@ -41,22 +36,15 @@ request("https://www.catholicculture.org/news/week.cfm", function(error, respons
           console.log(doc);
         }
 
-        });
+        }).then();
 
-            counter++;
+        counter++;
     		console.log(counter);
 
         }
 
   });
 
-   exit();
-   console.log('exiting now');
    return false;
 
 });
-
-
-function exit(){
-  mongoose.disconnect();
-}
