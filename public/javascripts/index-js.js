@@ -2,6 +2,14 @@ $(document).ready(function() {
 
 	// Catholic News / Prayer Section UI / Functionality
 
+	//The button has logic so it cant already be clicked if its the current state.
+	//After the user calls the most recent articles from the DB, the articles and
+	//links get saved into a variable so we dont need to call the DB again if the
+	//decides to click back and forth many times
+
+	//Once the user clicks prayers, I make a ajax request to get data from a 
+	//file which gets saved to a variable and also rendered to the screen.
+
 	// Here I add the class data-loaded to news-input so that later
 	// I can reference that this data has already been loaded to DOM
 	// from the database.
