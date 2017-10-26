@@ -2,10 +2,11 @@ $(document).ready(function() {
 
 	// Catholic News / Prayer Section UI / Functionality
 
-	//The button has logic so it cant already be clicked if its the current state.
+	//The button has logic so that it will not render new content if that buttons
+	//content is already in the div.
 	//After the user calls the most recent articles from the DB, the articles and
 	//links get saved into a variable so we dont need to call the DB again if the
-	//decides to click back and forth many times
+	//decides to click back and forth many times.
 
 	//Once the user clicks prayers, I make a ajax request to get data from a 
 	//file which gets saved to a variable and also rendered to the screen.
@@ -40,7 +41,6 @@ $(document).ready(function() {
       'text' : 'O Lord God, I love you above all things and I love my neighbor for your sake because you are the highest, infinite and perfect good, worthy of all my love. In this love I intend to live and die. Amen.'
     }
 	];
-
 
 
 	for(var i = 0 ; i < prayersList.length ; i++){
