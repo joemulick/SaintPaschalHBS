@@ -1,11 +1,13 @@
 var express = require('express');
+var passport = require('passport');
+var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn();
 var router = express.Router();
 
-/* GET users listing. */
-
-// Login
-// router.get('/admin-login', function(req, res){
-// 	res.render('main/admin-login');
-// });
+/* GET user profile. */
+router.get('/', ensureLoggedIn, function(req, res, next) {
+  res.render('user', {
+    user: req.user
+  });
+});
 
 module.exports = router;
