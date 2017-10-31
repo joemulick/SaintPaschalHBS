@@ -5,16 +5,14 @@ $(document).ready(function() {
 	//The button has logic so that it will not render new content if that buttons
 	//content is already in the div.
 	//After the user calls the most recent articles from the DB, the articles and
-	//links get saved into a variable so we dont need to call the DB again if the
-	//decides to click back and forth many times.
-
-	//Once the user clicks prayers, I make a ajax request to get data from a 
-	//file which gets saved to a variable and also rendered to the screen.
+	//links get saved into a variable so we dont need to call the DB again for example
+	//if the user decides to click back and forth many times no more calls will be made.
 
 	// Here I add the class data-loaded to news-input so that later
 	// I can reference that this data has already been loaded to DOM
 	// from the database.
-	$('news-input').addClass('data-loaded');
+	
+	$('#news-input').addClass('data-loaded');
 
 	var currentState = 1;
 	var newsOutputContainerVar;
@@ -64,7 +62,6 @@ $(document).ready(function() {
 			console.log('You Clicked the Option 1 Button');
 			currentState = 1;
 
-			prayersOutputContainerVar = $('#prayers-output-container');
 			$('#news-and-prayer-outer-container').empty()
 
 			$('#news-and-prayer-outer-container').append(newsOutputContainerVar);
@@ -77,15 +74,18 @@ $(document).ready(function() {
 			console.log('You Clicked the Option 2 Button');
 			currentState = 2;
 
+			$('#prayer-input').addClass('data-loaded');
+
 			console.log($(this).attr("id") + " : This should be button 2's ID");
 
 			newsOutputContainerVar = $('#news-output-container');
+
 			$('#news-and-prayer-outer-container').empty();
 
 			$('#news-and-prayer-outer-container').append(prayersOutputContainerVar);
-
-		}
 		
+		}
+
 	}
 
 	});
