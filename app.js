@@ -7,11 +7,50 @@ var bodyParser = require('body-parser');
 var expressHBS = require('express-handlebars');
 var mongoose = require('mongoose');
 
+//Auth0 
+var session = require('express-session');
+var dotenv = require('dotenv');
+var passport = require('passport');
+var Auth0Strategy = require('passport-auth0');
+var flash = require('connect-flash');
+
+dotenv.load();
+//Auth0 End
 
 mongoose.connect("mongodb://localhost/SaintPaschalDevelopmentHBS");
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+var user = require('./routes/user');
+
+// Auth0
+// This will configure Passport to use Auth0
+const strategy = new Auth0Strategy(
+  {
+    domain: process.env.AUTH0_DOMAIN,
+    clientID: process.env.AUTH0_CLIENT_ID,
+    clientSecret: process.env.AUTH0_CLIENT_SECRET,
+    callbackURL:
+      process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
+  },
+  function(accessToken, refreshToken, extraParams, profile, done) {
+    // accessToken is the token to call Auth0 API (not needed in the most cases)
+    // extraParams.id_token has the JSON Web Token
+    // profile has all the information from the user
+    return done(null, profile);
+  }
+);
+
+passport.use(strategy);
+
+// you can use this section to keep a smaller payload
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+// Auth0 End
 
 var app = express();
 
@@ -27,10 +66,50 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+/* added for auth0 */
+app.use(
+  session({
+    secret: 'shhhhhhhhh',
+    resave: true,
+    saveUninitialized: true
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
+/* added for auth0 end */
+
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+// More Auth0 Stuff
+app.use(flash());
+
+// Handle auth failure error messages
+app.use(function(req, res, next) {
+ if (req && req.query && req.query.error) {
+   req.flash("error", req.query.error);
+ }
+ if (req && req.query && req.query.error_description) {
+   req.flash("error_description", req.query.error_description);
+ }
+ next();
+});
+
+// Check logged in
+app.use(function(req, res, next) {
+  res.locals.loggedIn = false;
+  if (req.session.passport && typeof req.session.passport.user != 'undefined') {
+    res.locals.loggedIn = true;
+  }
+  next();
+});
+
+// More Auth0 Stuff End
+
+
 app.use('/', index);
-app.use('/users', users);
+app.use('/user', user);
 
 
 // error handlers
