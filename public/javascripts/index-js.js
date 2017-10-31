@@ -7,10 +7,6 @@ $(document).ready(function() {
 	//After the user calls the most recent articles from the DB, the articles and
 	//links get saved into a variable so we dont need to call the DB again for example
 	//if the user decides to click back and forth many times no more calls will be made.
-
-	// Here I add the class data-loaded to news-input so that later
-	// I can reference that this data has already been loaded to DOM
-	// from the database.
 	
 	$('#news-input').addClass('data-loaded');
 
