@@ -7,50 +7,11 @@ var bodyParser = require('body-parser');
 var expressHBS = require('express-handlebars');
 var mongoose = require('mongoose');
 
-//Auth0 
-var session = require('express-session');
-var dotenv = require('dotenv');
-var passport = require('passport');
-var Auth0Strategy = require('passport-auth0');
-var flash = require('connect-flash');
-
-dotenv.load();
-//Auth0 End
 
 mongoose.connect("mongodb://localhost/SaintPaschalDevelopmentHBS");
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-
-// Auth0
-// This will configure Passport to use Auth0
-const strategy = new Auth0Strategy(
-  {
-    domain: process.env.AUTH0_DOMAIN,
-    clientID: process.env.AUTH0_CLIENT_ID,
-    clientSecret: process.env.AUTH0_CLIENT_SECRET,
-    callbackURL:
-      process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
-  },
-  function(accessToken, refreshToken, extraParams, profile, done) {
-    // accessToken is the token to call Auth0 API (not needed in the most cases)
-    // extraParams.id_token has the JSON Web Token
-    // profile has all the information from the user
-    return done(null, profile);
-  }
-);
-
-passport.use(strategy);
-
-// you can use this section to keep a smaller payload
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
-// Auth0 End
 
 var app = express();
 
@@ -65,19 +26,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-/* added for auth0 */
-app.use(
-  session({
-    secret: 'shhhhhhhhh',
-    resave: true,
-    saveUninitialized: true
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
-
-/* added for auth0 end */
 
 app.use(express.static(path.join(__dirname, 'public')));
 
