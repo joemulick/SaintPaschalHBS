@@ -10,5 +10,12 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/parish-ministries', function(req, res){
+	res.render('main/parish-ministries');
+});
+
+router.get('/admin-login', function(req, res){
+	res.render('main/admin-login');
+});
 
 module.exports = router;
