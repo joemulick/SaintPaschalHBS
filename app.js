@@ -6,6 +6,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressHBS = require('express-handlebars');
 var mongoose = require('mongoose');
+var session = require('express-session');
+var expressValidator = require('express-validator');
+var LocalStrategy = require('passport-local').Strategy;
+var passport = require('passport');
 
 
 mongoose.connect("mongodb://localhost/SaintPaschalDevelopmentHBS");
@@ -28,6 +32,35 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Express Session
+app.use(session({
+  secret: 'Solarstar99**',
+  saveUninitialized: true,
+  resave: true
+}))
+
+// Passport init
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Express Validator
+app.use(expressValidator({
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.')
+      , root    = namespace.shift()
+      , formParam = root;
+
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+}));
 
 app.use('/', index);
 app.use('/users', users);
